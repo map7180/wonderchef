@@ -1,0 +1,32 @@
+#myCarousel .item{
+	height:4000px;
+}
+#slide1{
+	background: url('Images/four.jpg') top center no-repeat;
+	height:400px;
+	width:400px;
+}
+#slide2{
+	background: url('Images/one.jpg') top center no-repeat;
+	height:400px;
+	width:400px;
+}
+#slide3{
+	background: url('Images/two.jpg') top center no-repeat;
+	height:400px;
+	width:400px;
+}
+
+@media (min-width:1200px)
+{
+	#myCarousel .item{height: 400px;}
+	#slide1{
+	background: url('Images/four.jpg') top center no-repeat;
+}
+#slide2{
+	background: url('Images/one.jpg') top center no-repeat;
+}
+#slide3{
+	background: url('Images/two.jpg') top center no-repeat;
+}
+}

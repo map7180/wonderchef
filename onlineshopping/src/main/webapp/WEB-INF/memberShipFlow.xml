@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+	http://www.springframework.org/schema/webflow/spring-webflow.xsd">
+
+	<!-- Executed when webFlow is triggered -->
+	<var name="user" class="com.mk.shoppingbackend.dto.UserReg" />
+	<var name="address" class="com.mk.shoppingbackend.dto.Address" />
+
+	<on-start>
+		<evaluate expression="handlerClass.initFlow()" result="flowScope.registerModel" />
+	</on-start>
+
+	<!-- if not specified the first view state is the starting state -->
+	<view-state id="start" view="userReg" model="user">
+		<transition on="submit" to="address" />
+		<on-exit>
+			<evaluate expression="handlerClass.bindingUser(registerModel,user)"></evaluate>
+		</on-exit>
+	</view-state>
+
+	<view-state id="address" view="address" model="address">
+		<transition on="edit" to="start" />
+		<transition on="submit" to="conformuser" />
+		<on-exit>
+			<evaluate expression="handlerClass.bindingAddress(registerModel,address)"></evaluate>
+		</on-exit>
+	</view-state>
+	<view-state id="conformuser" view="conformuser" model="flowScope.registerModel">
+		<transition on="edit" to="start" />
+		<transition on="conform" to="saveuser" />
+	</view-state>
+
+	<action-state id="saveuser">
+		<evaluate expression="handlerClass.save(registerModel, address)"></evaluate>
+		<transition on="success" to="welcome" />
+		<transition on="failure" to="toCancel" />
+	</action-state>
+
+	<!-- <view-state id="welcome" view="welcome" model="user"></view-state> -->
+	<end-state id="welcome" view="welcome" />
+	<end-state id="toHome" view="externalRedirect:contextRelative:page.jsp" />
+	<end-state id="toCancel" view="externalRedirect:contextRelative:exception.jsp" />
+
+	<!-- these events are available in every state -->
+	<global-transitions>
+		<transition on="home" to="toHome" />
+		<transition on="cancel" to="toCancel" />
+	</global-transitions>
+
+</flow>
